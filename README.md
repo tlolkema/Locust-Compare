@@ -38,8 +38,8 @@ Arguments to run Locust-Compare:
 All possible options:
 ```
 write_previous_results
-compare_results_distribution
-compare_results_requests
+compare_results_distribution (also provide a columnname and factor)
+compare_results_requests (also provide a columnname and factor)
 create_comparison_distribution
 create_comparison_requests
 ```
@@ -67,7 +67,7 @@ $ locust -f example_test.py --csv=example --host https://www.github.com --no-web
 Add a post build step compare the results on a given column and specify the allowed factor of difference
 
 ```bash
-$ python3 locust_compare.py --prefix example --option compare_results_distribution --columnname 95% --allowed 20
+$ python3 locust_compare.py --prefix example --option compare_results_distribution --columnname 95% --factor 1.2
 ```
 
 ## Development

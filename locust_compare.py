@@ -10,7 +10,7 @@ Sample usage:
   $ locust -f example_test.py --csv=example --host https://www.github.com --no-web -t 1m
   $ python3 locust_compare.py --prefix example --option write_previous_results
   $ locust -f example_test.py --csv=example --host https://www.github.com --no-web -t 1m
-  $ python3 locust_compare.py --prefix example --option compare_results_distribution --columnname 95% --allowed 20
+  $ python3 locust_compare.py --prefix example --option compare_results_distribution --columnname 95% --factor 1.2
 
 """
 
