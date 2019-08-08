@@ -27,8 +27,18 @@ class LocustCompare:
         self._prefix = prefix
 
     def write_previous_results(self):
-        os.rename(f'{self._prefix}_distribution.csv', f'{self._prefix}_distribution_previous.csv')
-        os.rename(f'{self._prefix}_requests.csv', f'{self._prefix}_requests_previous.csv')
+        if os.path.exists(f'{self._prefix}_distribution_previous.csv'):
+            os.remove(f'{self._prefix}_distribution_previous.csv')
+            os.remove(f'{self._prefix}_requests_previous.csv')
+        elif os.path.exists(f'{self._prefix}_distribution.csv'):
+            os.rename(f'{self._prefix}_distribution.csv', f'{self._prefix}_distribution_previous.csv')
+            os.rename(f'{self._prefix}_requests.csv', f'{self._prefix}_requests_previous.csv')
+        else:
+            sys.exit(
+                f'An error occured\n'
+                f'Make sure you first run a Locust test\n'
+                f'Missing: {self._prefix}_distribution.csv'
+            )
 
     def compare_results_distribution(self, columnname, factor):
         column = columnname
@@ -36,24 +46,7 @@ class LocustCompare:
         df = self.return_comparison_distribution()
         df_columns = df[['Name',f'{columnname}_new',f'{columnname}_old']]
         f = df_columns[f'{columnname}_new'] / df_columns[f'{columnname}_old']
-        if (f > fac).any():
-            sys.exit(
-                f'One of the requests is above the given treshold factor\n'
-                f'Columns: {df_columns}\n'
-                f'Given Factor: {fac}\n'
-                f'Factors: {f}\n'
-            )
-        elif (f > fac).all():
-            print(
-                f'Success!\n'
-                f'Columns: {df_columns}\n'
-                f'Given Factor: {fac}\n'
-                f'Factors: {f}\n'
-            )
-        else:
-            sys.exit(
-                f'An error occured\n'
-            )
+        self.validate_results(f, fac, df_columns)
 
     def compare_results_requests(self, columnname, factor):
         column = columnname
@@ -61,23 +54,29 @@ class LocustCompare:
         df = self.return_comparison_requests()
         df_columns = df[['Name',f'{columnname}_new',f'{columnname}_old']]
         f = df_columns[f'{columnname}_new'] / df_columns[f'{columnname}_old']
+        self.validate_results(f, fac, df_columns)
+
+    def validate_results(self, f, fac, df_columns):
         if (f > fac).any():
             sys.exit(
                 f'One of the requests is above the given treshold factor\n'
                 f'Columns: {df_columns}\n'
                 f'Given Factor: {fac}\n'
-                f'Factors: {f}\n'
+                f'Factors:\n{f}\n'
             )
-        elif (f > fac).all():
+        elif (f < fac).all():
             print(
                 f'Success!\n'
                 f'Columns: {df_columns}\n'
                 f'Given Factor: {fac}\n'
-                f'Factors: {f}\n'
+                f'Factors:\n{f}\n'
             )
         else:
             sys.exit(
                 f'An error occured\n'
+                f'Columns: {df_columns}\n'
+                f'Given Factor: {fac}\n'
+                f'Factors:\n{f}\n'
             )
 
     def return_comparison_distribution(self):
