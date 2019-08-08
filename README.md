@@ -1,6 +1,6 @@
 # Locust-Compare
 
-Locust-Compare compares the result of a Locusio.io run with the previous result.
+Locust-Compare compares and validates the result of a Locusio.io run with the previous result.
 
 ## Features
 
