@@ -32,7 +32,6 @@ Arguments to run Locust-Compare:
 -o    Select an option to run, view the documentation for the possible options
 -c    Which column name to compare
 -f    The allowed factor of difference
-
 ```
 
 All possible options:
