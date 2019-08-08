@@ -37,7 +37,7 @@ Arguments to run Locust-Compare:
 
 All possible options:
 ```
-write_previous_results
+create_baseline
 compare_results_distribution (also provide a columnname and factor)
 compare_results_requests (also provide a columnname and factor)
 create_comparison_distribution
@@ -46,16 +46,16 @@ create_comparison_requests
 
 ### Basic usage CI/CD
 
-First create a baseline by running your Locust script and saving the initial reports:
+First we need atleast a Locust run to have some baseline results:
 
 ```bash
 $ locust -f example_test.py --csv=example --host https://www.github.com --no-web -t 1m
 ```
 
-Add a pre build step rename the previous results:
+Add a pre build step to create a baseline with Locust Compare based on the previous run:
 
 ```bash
-$ python3 locust_compare.py --prefix example --option write_previous_results
+$ python3 locust_compare.py --prefix example --option create_baseline
 ```
 
 Run your actual Locust script:
@@ -64,7 +64,7 @@ Run your actual Locust script:
 $ locust -f example_test.py --csv=example --host https://www.github.com --no-web -t 1m
 ```
 
-Add a post build step compare the results on a given column and specify the allowed factor of difference
+Add a post build step to compare the results on a given column and specify the allowed factor of difference
 
 ```bash
 $ python3 locust_compare.py --prefix example --option compare_results_distribution --columnname 95% --factor 1.2
