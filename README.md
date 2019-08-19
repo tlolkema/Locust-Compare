@@ -5,7 +5,7 @@ Locust-Compare compares and validates the result of a Locusio.io run with the pr
 ## Features
 
 - Written in uncomplicated python3
-- Easy of installation and use
+- Ease of installation and use
 - Merge your Locust.io runs and generate a merged .csv
 - Specify which column to compare and set your own tresholds
 - Great for integration in your CI/CD pipelines (Jenkins, Travis)
